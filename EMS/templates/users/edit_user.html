@@ -1,0 +1,76 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+<style>
+  select.form-control {
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: menulist;
+}
+</style>
+
+{%if error_message%}
+
+<p class="alert alert-danger">
+    <strong>{{error_message}}</strong>
+</p>
+
+{%endif%}
+
+
+  <form class="mt-5 p-3 shadow-sm rounded bg-white" action="{%url 'users:process edit user' user.id%}" method="post" enctype="multipart/form-data" >
+    {%csrf_token%}
+     <h4><i class="bi bi-pencil-square"></i> Edit Employee</h4>
+     <div class="form-row mt-4">
+       <div class="form-group col-md-6">
+         <label for="user_fname">First Name</label>
+         <input type="text" class="form-control" name="user_fname" id="user_fname" placeholder="First Name" required value={{user.user_fname}}>
+       </div>
+       <div class="form-group col-md-6">
+         <label for="user_lname">Last Name</label>
+         <input type="text" class="form-control" name="user_lname" id="user_lname" placeholder="Last Name" value={{user.user_lname}}>
+       </div>
+       <div class="form-group col-md-6">
+         <label for="user_email">Email</label>
+         <input type="user_email" class="form-control" name="user_email" id="user_email" placeholder="Email" value={{user.user_email}}>
+       </div>
+       <div class="form-group col-md-4">
+        <label for="user_image">Profile Picture</label>
+        <input type="file" class="form-control" name="user_image" id="user_image" placeholder="Profile Picture" accept="image/*">
+      </div>
+     </div>
+     <div class="form-row">
+       <div class="form-group col-md-2">
+         
+         <label for="user_department">Department</label>
+         <select name="user_department" id="user_department" class="form-control" value={{user.user_department}}>
+           <option hidden>{{user.user_department}}</option>
+           {%for dep in department_list%}
+           <option>{{dep.department_name}}</option>
+           {%endfor%}
+         </select>
+        
+       </div>
+       <div class="form-group col-md-2">
+         <label for="user_position">Position</label>
+         <select name="user_position" id="user_position" class="form-control">
+           <option hidden>{{user.user_position}}</option>
+           {%for pos in position_list%}
+           <option>{{pos.position_name}}</option>
+           {%endfor%}
+         </select>
+       </div>
+     </div>
+     <div class="form-row mt-3 ">
+       <button type="submit" class="btn btn-primary mx-2">Update</button>
+       <a href="{%url 'users:user detail' user.id%}" class="btn btn-primary">Cancel</a>
+     </div>
+     
+     
+     
+   </form>
+ 
+
+
+{%endblock%}

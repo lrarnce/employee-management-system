@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<style>
+  img{
+    border-radius: 50%;
+  }
+  table thead, table td {
+            padding: 0.3rem; /* Adjust padding as needed */
+        }
+</style>
+
+<!-- JavaScript alert if success message exists -->
+{% if messages %}
+        
+{% for message in messages %}
+    <div class="alert alert-success mt-2" role="alert">
+      <p>{{message}}</p>
+    </div>
+{% endfor %}
+
+{% endif %}
+
+<!-- <h1 class="text-center mt-2 mb-1">Welcome to Archins Enterprises</h1> -->
+
+<div class="container d-flex justify-content-center text-center p-5" style="gap: 10px">
+    <div class="card shadow-sm" style="width: 150px; height: 120px;">Number of Employees
+      <h2 class="mt-2">{{ user_list_total.count }}</h2>
+    </div>
+    <div class="card shadow-sm" style="width: 150px; height: 120px;">Number of Departments
+      <h2 class="mt-2">{{ department_list.count }}</h2>
+    </div>
+</div>
+
+
+
+<div class="container">
+  <form action="{%url 'users:search user'%}" method="GET" >
+    <div class="input-group mt-4">
+        <input type="text" class="form-control" name="search" placeholder="Search" required>
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-dark">Search</button>
+        </div>
+  
+    </div>
+  </form>
+  {%if page_obj%}
+  <table class="table table-hover table-responsive-lg mt-4 rounded shadow-sm">
+      <thead>
+        <tr>
+          <th scope="col">User Image</th>
+          <th scope="col">First Name</th>
+          <th scope="col">Last Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Department</th>
+          <th scope="col">Position</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in page_obj %}
+        <tr>
+          <th scope="row" class=""><a class="nav-link" href="{%url 'users:user detail' user.id%}"><img src="media/{{user.user_image}}" width="35" height="35" alt="User Profile Picture"></a></th>
+          <td><a class="nav-link" href="{%url 'users:user detail' user.id%}">{{user.user_fname}}</a></td>
+          <td><a class="nav-link" href="{%url 'users:user detail' user.id%}">{{user.user_lname}}</a></td>
+          <td><a class="nav-link" href="{%url 'users:user detail' user.id%}">{{user.user_email}}</a></td>
+          <td><a class="nav-link" href="{%url 'users:user detail' user.id%}">{{user.user_department}}</a></td>
+          <td><a class="nav-link" href="{%url 'users:user detail' user.id%}">{{user.user_position}}</a></td>
+        </tr>
+        {% endfor%}
+      </tbody>
+  </table>
+      {%else%}
+          <h1>No User Data</h1>
+      {%endif%}
+      <ul class="pagination">
+        {%if page_obj.has_previous%}
+        <li class="page-item"><a href="?page=1" class="page-link " style="color: black;">&laquo; First</a></li>
+        <li class="page-item"><a href="?page={{page_obj.previous_page_number}}" class="page-link"style="color: black;">Previous</a></li>
+        {%endif%}
+        {%if page_obj.has_next%}
+        <li class="page-item"><a href="?page={{page_obj.next_page_number}}" class="page-link" style="color: black;">Next</a></li>
+        <li class="page-item"><a href="?page={{page_obj.paginator.num_pages}}" class="page-link" style="color: black;">Last &raquo;</a></li>
+        {%endif%}
+    </ul>
+
+    
+      
+</div>
+
+
+
+
+
+{% endblock %}

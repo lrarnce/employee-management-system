@@ -1,0 +1,75 @@
+{%extends 'base.html'%}
+
+{%block content%}
+
+<style>
+  select.form-control {
+    -webkit-appearance: menulist;
+    -moz-appearance: menulist;
+    appearance: menulist;
+}
+</style>
+
+
+  <form class="mt-5 p-3 shadow-sm rounded bg-white" action="{%url 'users:process_add_user'%}" method="post" enctype="multipart/form-data" >
+    {%csrf_token%}
+     <h4><i class="bi bi-person-plus-fill"></i> New Employee </h4>
+     <div class="form-row mt-4">
+       <div class="form-group col-md-6">
+         <label for="user_fname">First Name</label>
+         <input type="text" class="form-control" name="user_fname" id="user_fname" placeholder="First Name" required>
+       </div>
+       <div class="form-group col-md-6">
+         <label for="user_lname">Last Name</label>
+         <input type="text" class="form-control" name="user_lname" id="user_lname" placeholder="Last Name" required>
+       </div>
+       <!-- <div class="form-group col-md-6">
+        <label for="username">Username</label>
+        <input type="text" class="form-control" name="username" id="username" placeholder="Username" required>
+      </div>
+       <div class="form-group col-md-6">
+        <label for="password">Password</label>
+        <input type="text" class="form-control" name="password" id="password" placeholder="Password" required>
+      </div> -->
+       <div class="form-group col-md-6">
+         <label for="user_email">Email</label>
+         <input type="user_email" class="form-control" name="user_email" id="user_email" placeholder="Email" required>
+       </div>
+       <div class="form-group col-md-4">
+        <label for="user_image">Profile Picture</label>
+        <input type="file" class="form-control" name="user_image" id="user_image" placeholder="Profile Picture" accept="image/*">
+      </div>
+     </div>
+     <div class="form-row">
+       
+       <div class="form-group col-md-2">
+         
+         <label for="user_department">Department</label>
+         <select name="user_department" id="user_department" class="form-control" required>
+           {%for dep in department_list%}
+           <option>{{dep.department_name}}</option>
+           {%endfor%}
+         </select>
+        
+       </div>
+       <div class="form-group col-md-2">
+         <label for="user_position">Position</label>
+         <select name="user_position" id="user_position" class="form-control" required>
+           {%for pos in position_list%}
+           <option>{{pos.position_name}}</option>
+           {%endfor%}
+         </select>
+       </div>
+     </div>
+     <div class="form-row mt-3 ">
+       <button type="submit" class="btn btn-primary mx-2">Add User</button>
+       <a href="/users/" class="btn btn-primary">Cancel</a>
+     </div>
+     
+     
+     
+   </form>
+ 
+
+
+{%endblock%}
